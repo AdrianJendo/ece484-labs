@@ -16,6 +16,8 @@ C = k * (s + 1/tau) / (g1 * s + g0);
 T = feedback(P*C, 1);
 stepinfo(T)
 
+bw = bandwidth(T);
+
 %% b
 f = 1000;
 D = c2d(C, 1/f);
