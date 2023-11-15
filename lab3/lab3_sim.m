@@ -19,12 +19,16 @@ T = feedback(P*C1, 1);
 bw = bandwidth(T);
 f = 1000;
 D1 = c2d(C1, 1/f);
-K2 = 0.0609;
-K3 = -4.419;
 
 %% Lab 3
 s = tf('s');
+K2 = 0.0609;
+K3 = -4.419;
 % C2 = -7 * (s+0.35)/(s+2.5);
-%D2 = c2d(C2, 1/f); 
-C2 = 1/(K2*K3) *(21.7*s^2 +23.92*s +16.32 )/(s^2 +8.2*s);
+% D2 = c2d(C2, 1/f);
+ccs_des = (s+3)*(s+2)*(s-(-0.62+1i))*(s-(-0.62-1i));
+[coefs] = tfdata(ccs_des, 'v');
+C2 = 1/(K2*K3) * (coefs(3)*s^2 + coefs(4)*s + coefs(5)) / (coefs(1)*s^2 + coefs(2)*s);
 P2 = K2*K3/(s^2);
+T = feedback(P2*C2, 1);
+stepinfo(T)
