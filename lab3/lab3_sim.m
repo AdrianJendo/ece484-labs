@@ -36,3 +36,4 @@ C2 = 1/(K2*K3) * (coefs(3)*s^2 + coefs(4)*s + coefs(5)) / (coefs(1)*s^2 + coefs(
 P2 = K2*K3/(s^2);
 T = feedback(P2*C2, 1);
 stepinfo(T)
+D2 = c2d(C2, 1/f);
