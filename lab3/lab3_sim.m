@@ -30,9 +30,19 @@ re = -1;
 cpx = 1;
 %ccs_des = (s+1)*(s+1)*(s-(re+cpx*1i))*(s-(re-cpx*1i));
 %ccs_des = (s+0.3)*(s+0.4)*(s-(re+cpx*1i))*(s-(re-cpx*1i));
-ccs_des = (s-(-1.033+1.254*1i))*(s-(-1.033-1.254*1i))*(s-(-0.3167-0.06619*1i))*(s-(-0.3167+0.06619*1i));
+%%ccs_des = (s-(-1.033+1.254*1i))*(s-(-1.033-1.254*1i))*(s-(-0.3167-0.06619*1i))*(s-(-0.3167+0.06619*1i));
+ccs_des = (s-(-0.5+1i))*(s-(-0.5-1i))*(s+3)*(s+4);
 [coefs] = tfdata(ccs_des, 'v');
-C2 = 1/(K2*K3) * (coefs(3)*s^2 + coefs(4)*s + coefs(5)) / (coefs(1)*s^2 + coefs(2)*s);
+
+g2 = coefs(1);
+g1 = coefs(2);
+f0 = coefs(5)/(K2*K3);
+g0 = K2*K3*f0 / 24;
+f2 = (coefs(3)-g0) / (K2*K3);
+f1 = coefs(4) / (K2*K3);
+
+% C2 = 1/(K2*K3) * (coefs(3)*s^2 + coefs(4)*s + coefs(5)) / (coefs(1)*s^2 + coefs(2)*s);
+C2 = (f2*s^2 + f1*s + f0) / (g2*s^2 + g1*s + g0);
 P2 = K2*K3/(s^2);
 T = feedback(P2*C2, 1);
 stepinfo(T)
